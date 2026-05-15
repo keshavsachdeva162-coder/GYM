@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Create your PowerFit Pro account to access personalized workout plans, nutrition guidance, and exclusive member benefits.">
+    <meta name="keywords" content="register, sign up, create account, gym membership">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (for register) -->
+    <style>
+        /* Override body styles for full-height layout */
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-circle {
+            position: absolute;
+            background: rgba(255, 77, 77, 0.05);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+        }
+
+        .bg-circle:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 5s;
+        }
+
+        .bg-circle:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            bottom: 100px;
+            left: 100px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(50px, 50px); }
+            50% { transform: translate(100px, -50px); }
+            75% { transform: translate(-50px, 100px); }
+        }
+
+        /* Main Content - Register Section */
+        .register-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Register Container */
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .register-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px 40px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo i {
+            font-size: 50px;
+            color: #ff4d4d;
+            margin-bottom: 10px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            color: #fff;
+        }
+
+        .logo span {
+            color: #ff4d4d;
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .register-header h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .register-header p {
+            color: #ccc;
+        }
+
+        /* Form */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff4d4d;
+            font-size: 16px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 77, 77, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-group select {
+            padding: 12px;
+            color: #ccc;
+        }
+
+        .input-group select option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #ff4d4d;
+            background: rgba(255, 77, 77, 0.1);
+        }
+
+        .input-group input.error {
+            border-color: #e74c3c;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 3px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Password Strength */
+        .password-strength {
+            margin-top: 5px;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .strength-progress {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
+        }
+
+        .strength-text {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        /* Terms */
+        .terms {
+            margin: 20px 0;
+        }
+
+        .terms label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .terms input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .terms a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .register-btn:hover {
+            background: #ff3333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 77, 77, 0.3);
+        }
+
+        /* Social Register */
+        .social-register {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .social-register p {
+            color: #ccc;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .social-register p::before,
+        .social-register p::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: rgba(255, 77, 77, 0.3);
+        }
+
+        .social-register p::before {
+            left: 0;
+        }
+
+        .social-register p::after {
+            right: 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: #ff4d4d;
+            transform: translateY(-3px);
+        }
+
+        /* Login Link */
+        .login-link {
+            text-align: center;
+            color: #ccc;
+        }
+
+        .login-link a {
+            color: #ff4d4d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Back to Home */
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-home a {
+            color: #ccc;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home a:hover {
+            color: #ff4d4d;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .register-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">POWERFIT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Power<span>Fit</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Register Section -->
+    <div class="register-wrapper">
+        <div class="register-container">
+            <div class="register-card">
+                <div class="logo">
+                    <i class="fas fa-dumbbell"></i>
+                    <h1>Power<span>Fit</span></h1>
+                </div>
+
+                <div class="register-header">
+                    <h2>Create Account</h2>
+                    <p>Join the PowerFit family today</p>
+                </div>
+
+                <!-- Register Form -->
+                <form id="registerForm" onsubmit="event.preventDefault(); register()">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="firstName" placeholder="First Name" required>
+                            </div>
+                            <div class="error-message" id="firstNameError">First name is required</div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="lastName" placeholder="Last Name" required>
+                            </div>
+                            <div class="error-message" id="lastNameError">Last name is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="error-message" id="emailError">Please enter a valid email</div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" placeholder="Phone Number" required>
+                        </div>
+                        <div class="error-message" id="phoneError">Phone number is required</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" placeholder="Password" required>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-bar">
+                                    <div class="strength-progress" id="strengthProgress"></div>
+                                </div>
+                                <span class="strength-text" id="strengthText">Enter password</span>
+                            </div>
+                            <div class="error-message" id="passwordError">Password must be at least 6 characters</div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                            </div>
+                            <div class="error-message" id="confirmError">Passwords do not match</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-calendar"></i>
+                            <input type="date" id="dob" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-venus-mars"></i>
+                            <select id="gender">
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="terms">
+                        <label>
+                            <input type="checkbox" id="terms" required>
+                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="register-btn">Create Account</button>
+
+                    <div class="social-register">
+                        <p>Or sign up with</p>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-apple"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="login-link">
+                        Already have an account? <a href="login.html">Login</a>
+                    </div>
+                </form>
+
+                <div class="back-home">
+                    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Power<span>Fit</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PowerFit Pro. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+
+        // Password strength checker
+        const password = document.getElementById('password');
+        const strengthProgress = document.getElementById('strengthProgress');
+        const strengthText = document.getElementById('strengthText');
+
+        password.addEventListener('input', function() {
+            const value = this.value;
+            let strength = 0;
+            
+            if (value.length >= 6) strength += 25;
+            if (value.match(/[a-z]/)) strength += 25;
+            if (value.match(/[A-Z]/)) strength += 25;
+            if (value.match(/[0-9]/)) strength += 25;
+            
+            strengthProgress.style.width = strength + '%';
+            
+            if (strength <= 25) {
+                strengthProgress.style.background = '#e74c3c';
+                strengthText.textContent = 'Weak password';
+            } else if (strength <= 50) {
+                strengthProgress.style.background = '#f39c12';
+                strengthText.textContent = 'Fair password';
+            } else if (strength <= 75) {
+                strengthProgress.style.background = '#3498db';
+                strengthText.textContent = 'Good password';
+            } else {
+                strengthProgress.style.background = '#27ae60';
+                strengthText.textContent = 'Strong password';
+            }
+        });
+
+        // Register function
+        function register() {
+            const firstName = document.getElementById('firstName');
+            const lastName = document.getElementById('lastName');
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const terms = document.getElementById('terms');
+            
+            let isValid = true;
+
+            // First name validation
+            if (!firstName.value) {
+                showError('firstName', 'firstNameError', 'First name is required');
+                isValid = false;
+            } else {
+                hideError('firstName', 'firstNameError');
+            }
+
+            // Last name validation
+            if (!lastName.value) {
+                showError('lastName', 'lastNameError', 'Last name is required');
+                isValid = false;
+            } else {
+                hideError('lastName', 'lastNameError');
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value) {
+                showError('email', 'emailError', 'Email is required');
+                isValid = false;
+            } else if (!emailRegex.test(email.value)) {
+                showError('email', 'emailError', 'Please enter a valid email');
+                isValid = false;
+            } else {
+                hideError('email', 'emailError');
+            }
+
+            // Phone validation
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phone.value) {
+                showError('phone', 'phoneError', 'Phone number is required');
+                isValid = false;
+            } else if (!phoneRegex.test(phone.value)) {
+                showError('phone', 'phoneError', 'Please enter a valid 10-digit number');
+                isValid = false;
+            } else {
+                hideError('phone', 'phoneError');
+            }
+
+            // Password validation
+            if (!password.value) {
+                showError('password', 'passwordError', 'Password is required');
+                isValid = false;
+            } else if (password.value.length < 6) {
+                showError('password', 'passwordError', 'Password must be at least 6 characters');
+                isValid = false;
+            } else {
+                hideError('password', 'passwordError');
+            }
+
+            // Confirm password validation
+            if (password.value !== confirmPassword.value) {
+                showError('confirmPassword', 'confirmError', 'Passwords do not match');
+                isValid = false;
+            } else {
+                hideError('confirmPassword', 'confirmError');
+            }
+
+            // Terms validation
+            if (!terms.checked) {
+                alert('Please agree to the Terms of Service and Privacy Policy');
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert('Registration successful! Please login to continue.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Show error
+        function showError(inputId, errorId, message) {
+            const input = document.getElementById(inputId);
+            if (input) input.classList.add('error');
+            const errorElement = document.getElementById(errorId);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.classList.add('show');
+            }
+        }
+
+        // Hide error
+        function hideError(inputId, errorId) {
+            const input = document.getElementById(inputId);
+            if (input) input.classList.remove('error');
+            const errorElement = document.getElementById(errorId);
+            if (errorElement) errorElement.classList.remove('show');
+        }
+
+        // Remove errors on input
+        ['firstName', 'lastName', 'email', 'phone', 'password', 'confirmPassword'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', function() {
+                    this.classList.remove('error');
+                    const errorId = id + 'Error';
+                    const errorEl = document.getElementById(errorId);
+                    if (errorEl) errorEl.classList.remove('show');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

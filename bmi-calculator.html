@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate your Body Mass Index (BMI) and get personalized fitness recommendations at PowerFit Pro.">
+    <meta name="keywords" content="BMI calculator, body mass index, fitness calculator, health check">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (for BMI calculator) -->
+    <style>
+        .page-header {
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 60px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .page-header span {
+            color: #ff4d4d;
+        }
+
+        .breadcrumb {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .calculator-section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-subtitle {
+            color: #ff4d4d;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .section-title span {
+            color: #ff4d4d;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #ff4d4d;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 77, 77, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #ff4d4d;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .calculate-btn:hover {
+            background: #ff3333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 77, 77, 0.3);
+        }
+
+        .result-card {
+            text-align: center;
+        }
+
+        .bmi-value {
+            font-size: 80px;
+            font-weight: 800;
+            color: #ff4d4d;
+            font-family: 'Orbitron', sans-serif;
+            margin: 20px 0;
+        }
+
+        .bmi-category {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .bmi-category.underweight { color: #3498db; }
+        .bmi-category.normal { color: #27ae60; }
+        .bmi-category.overweight { color: #f39c12; }
+        .bmi-category.obese { color: #e74c3c; }
+
+        .bmi-scale {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .scale-item {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .scale-item.underweight { background: #3498db; }
+        .scale-item.normal { background: #27ae60; }
+        .scale-item.overweight { background: #f39c12; }
+        .scale-item.obese { background: #e74c3c; }
+
+        .chart-container {
+            margin-top: 40px;
+            height: 300px;
+        }
+
+        .recommendations {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .recommendations h3 {
+            color: #ff4d4d;
+            margin-bottom: 20px;
+        }
+
+        .recommendations ul {
+            list-style: none;
+        }
+
+        .recommendations li {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommendations i {
+            color: #27ae60;
+        }
+
+        @media (max-width: 992px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 40px;
+            }
+            
+            .bmi-scale {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">POWERFIT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Power<span>Fit</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>BMI <span>Calculator</span></h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>BMI Calculator</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-subtitle">Health Check</span>
+                <h2 class="section-title">Calculate Your <span>BMI</span></h2>
+            </div>
+
+            <div class="calculator-grid">
+                <!-- Input Form -->
+                <div class="calculator-card" data-aos="fade-right">
+                    <h2 style="margin-bottom: 30px;">Enter Your Details</h2>
+                    
+                    <div class="input-group">
+                        <label>Age</label>
+                        <input type="number" id="age" placeholder="Enter your age" min="1" max="120">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Gender</label>
+                        <select id="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Height (cm)</label>
+                            <input type="number" id="height" placeholder="cm" min="50" max="250">
+                        </div>
+                        <div class="input-group">
+                            <label>Weight (kg)</label>
+                            <input type="number" id="weight" placeholder="kg" min="10" max="300">
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Activity Level</label>
+                            <select id="activity">
+                                <option value="1.2">Sedentary (No exercise)</option>
+                                <option value="1.375">Light (1-3 days/week)</option>
+                                <option value="1.55">Moderate (3-5 days/week)</option>
+                                <option value="1.725">Active (6-7 days/week)</option>
+                                <option value="1.9">Very Active (Athlete)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Goal</label>
+                            <select id="goal">
+                                <option value="lose">Lose Weight</option>
+                                <option value="maintain">Maintain Weight</option>
+                                <option value="gain">Gain Weight</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="calculate-btn" id="calculateBtn">Calculate BMI</button>
+                </div>
+
+                <!-- Results -->
+                <div class="calculator-card result-card" data-aos="fade-left">
+                    <h2>Your Results</h2>
+                    
+                    <div class="bmi-value" id="bmiValue">-</div>
+                    <div class="bmi-category" id="bmiCategory">-</div>
+
+                    <div class="bmi-scale">
+                        <div class="scale-item underweight">Underweight < 18.5</div>
+                        <div class="scale-item normal">Normal 18.5-24.9</div>
+                        <div class="scale-item overweight">Overweight 25-29.9</div>
+                        <div class="scale-item obese">Obese > 30</div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="bmiChart"></canvas>
+                    </div>
+
+                    <div class="recommendations" id="recommendations">
+                        <h3>Recommendations</h3>
+                        <ul id="recommendationsList">
+                            <li><i class="fas fa-check"></i> Enter your details to get personalized recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Power<span>Fit</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PowerFit Pro. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+
+        let bmiChart;
+
+        // Calculate BMI
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value) / 100;
+            const weight = parseFloat(document.getElementById('weight').value);
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const activity = parseFloat(document.getElementById('activity').value);
+            const goal = document.getElementById('goal').value;
+
+            if (!height || !weight || !age) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Calculate BMI
+            const bmi = (weight / (height * height)).toFixed(1);
+            document.getElementById('bmiValue').textContent = bmi;
+
+            // Determine category
+            let category = '';
+            let categoryClass = '';
+            let color = '';
+
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                categoryClass = 'underweight';
+                color = '#3498db';
+            } else if (bmi >= 18.5 && bmi < 25) {
+                category = 'Normal Weight';
+                categoryClass = 'normal';
+                color = '#27ae60';
+            } else if (bmi >= 25 && bmi < 30) {
+                category = 'Overweight';
+                categoryClass = 'overweight';
+                color = '#f39c12';
+            } else {
+                category = 'Obese';
+                categoryClass = 'obese';
+                color = '#e74c3c';
+            }
+
+            const categoryElement = document.getElementById('bmiCategory');
+            categoryElement.textContent = category;
+            categoryElement.className = `bmi-category ${categoryClass}`;
+
+            // Update chart
+            updateChart(bmi, color);
+
+            // Calculate BMR and calories
+            let bmr;
+            if (gender === 'male') {
+                bmr = 88.362 + (13.397 * weight) + (4.799 * height * 100) - (5.677 * age);
+            } else {
+                bmr = 447.593 + (9.247 * weight) + (3.098 * height * 100) - (4.330 * age);
+            }
+
+            const maintenanceCalories = Math.round(bmr * activity);
+            let targetCalories;
+
+            if (goal === 'lose') {
+                targetCalories = maintenanceCalories - 500;
+            } else if (goal === 'gain') {
+                targetCalories = maintenanceCalories + 300;
+            } else {
+                targetCalories = maintenanceCalories;
+            }
+
+            // Update recommendations
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = `
+                <li><i class="fas fa-check"></i> Your BMI is ${bmi} (${category})</li>
+                <li><i class="fas fa-fire"></i> BMR: ${Math.round(bmr)} calories/day</li>
+                <li><i class="fas fa-utensils"></i> Maintenance Calories: ${maintenanceCalories} calories/day</li>
+                <li><i class="fas fa-bullseye"></i> Target Calories: ${targetCalories} calories/day</li>
+                <li><i class="fas fa-dumbbell"></i> Recommended workouts: ${getWorkoutRecommendation(category)}</li>
+            `;
+        }
+
+        // Get workout recommendation
+        function getWorkoutRecommendation(category) {
+            const recommendations = {
+                'Underweight': 'Strength training with moderate cardio, focus on muscle building',
+                'Normal Weight': 'Mix of cardio and strength training for maintenance',
+                'Overweight': 'HIIT and cardio with strength training for fat loss',
+                'Obese': 'Low-impact cardio and strength training with diet focus'
+            };
+            return recommendations[category] || 'Consult with our trainers for personalized plan';
+        }
+
+        // Update chart
+        function updateChart(bmi, color) {
+            const ctx = document.getElementById('bmiChart').getContext('2d');
+            
+            if (bmiChart) {
+                bmiChart.destroy();
+            }
+
+            bmiChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Your BMI', 'Healthy Range'],
+                    datasets: [{
+                        data: [bmi, 24.9 - 18.5],
+                        backgroundColor: [color, 'rgba(255, 255, 255, 0.1)'],
+                        borderColor: [color, 'transparent'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Event listener
+        document.getElementById('calculateBtn').addEventListener('click', calculateBMI);
+
+        // Enter key support
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                calculateBMI();
+            }
+        });
+    </script>
+</body>
+</html>

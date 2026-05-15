@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Explore PowerFit Pro's achievements, awards, and milestones - India's most advanced fitness center">
+    <meta name="keywords" content="gym achievements, fitness awards, milestones, PowerFit Pro">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (overrides for achievements page) -->
+    <style>
+        .page-header {
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1552674605-db6c0c77b3f7?ixlib=rb-4.0.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 60px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .page-header span {
+            color: #ff4d4d;
+        }
+
+        .breadcrumb {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .achievements-section {
+            padding: 80px 0;
+        }
+
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 77, 77, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 40px;
+            color: #ff4d4d;
+            margin-bottom: 15px;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: #ff4d4d;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stat-label {
+            color: #ccc;
+            margin-top: 10px;
+        }
+
+        /* Badges Grid */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .badge-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,77,77,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .badge-card:hover::before {
+            opacity: 1;
+        }
+
+        .badge-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .badge-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff4d4d, #ff6b6b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: #fff;
+        }
+
+        .badge-card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .badge-card p {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .badge-progress {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ff4d4d;
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: #ff4d4d;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            animation: fadeIn 1s ease;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff4d4d;
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .timeline-item.left {
+            left: 0;
+        }
+
+        .timeline-item.left::after {
+            right: -10px;
+        }
+
+        .timeline-item.right {
+            left: 50%;
+        }
+
+        .timeline-item.right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .timeline-date {
+            color: #ff4d4d;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 40px;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item.right {
+                left: 0;
+            }
+
+            .timeline-item.left::after,
+            .timeline-item.right::after {
+                left: 21px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">FIT POINT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Fit<span>Point</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our <span>Achievements</span></h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Achievements</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Achievements Content -->
+    <section class="achievements-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-subtitle">Milestones</span>
+                <h2 class="section-title">Our <span>Achievements</span></h2>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-overview">
+                <div class="stat-card" data-aos="fade-up">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-value">15+</div>
+                    <div class="stat-label">Awards Won</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">5000+</div>
+                    <div class="stat-label">Happy Members</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">Certified Trainers</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-value">10k+</div>
+                    <div class="stat-label">Classes Completed</div>
+                </div>
+            </div>
+
+            <!-- Badges Grid -->
+            <h2 style="text-align: center; margin: 50px 0 30px;" data-aos="fade-up">Earned <span style="color: #ff4d4d;">Badges</span></h2>
+            <div class="badges-grid" id="badgesGrid"></div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-subtitle">Our Journey</span>
+                <h2 class="section-title">Achievement <span>Timeline</span></h2>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2015</div>
+                        <h3>Gym Founded</h3>
+                        <p>Fit Point opened its first location in Mumbai</p>
+                    </div>
+                </div>
+                <div class="timeline-item right" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2017</div>
+                        <h3>Best New Gym Award</h3>
+                        <p>Received "Best New Gym" award from Fitness India</p>
+                    </div>
+                </div>
+                <div class="timeline-item left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2018</div>
+                        <h3>1000 Members Milestone</h3>
+                        <p>Celebrated reaching 1000 active members</p>
+                    </div>
+                </div>
+                <div class="timeline-item right" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2019</div>
+                        <h3>Excellence in Training</h3>
+                        <p>Awarded "Excellence in Personal Training"</p>
+                    </div>
+                </div>
+                <div class="timeline-item left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2020</div>
+                        <h3>Digital Innovation Award</h3>
+                        <p>Launched AI-powered workout platform</p>
+                    </div>
+                </div>
+                <div class="timeline-item right" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2021</div>
+                        <h3>5000 Members</h3>
+                        <p>Reached 5000 happy members milestone</p>
+                    </div>
+                </div>
+                <div class="timeline-item left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2022</div>
+                        <h3>Best Fitness Chain</h3>
+                        <p>Voted "Best Fitness Chain" by Fitness Magazine</p>
+                    </div>
+                </div>
+                <div class="timeline-item right" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023</div>
+                        <h3>VR Training Launch</h3>
+                        <p>Pioneered VR fitness training in India</p>
+                    </div>
+                </div>
+                <div class="timeline-item left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2024</div>
+                        <h3>10 Years Anniversary</h3>
+                        <p>Celebrating 10 years of fitness excellence</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Fit<span>Point</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fit Point. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Badges Data
+        const badges = [
+            {
+                name: 'First Workout',
+                icon: 'fa-dumbbell',
+                description: 'Completed your first workout',
+                progress: 100,
+                earned: true
+            },
+            {
+                name: '30 Day Streak',
+                icon: 'fa-calendar-check',
+                description: 'Worked out 30 days in a row',
+                progress: 100,
+                earned: true
+            },
+            {
+                name: 'Strength Master',
+                icon: 'fa-fire',
+                description: 'Lifted 1000kg total volume',
+                progress: 75,
+                earned: false
+            },
+            {
+                name: 'Cardio King',
+                icon: 'fa-heartbeat',
+                description: 'Ran 100km total',
+                progress: 60,
+                earned: false
+            },
+            {
+                name: 'Early Bird',
+                icon: 'fa-sun',
+                description: 'Attended 50 morning classes',
+                progress: 40,
+                earned: false
+            },
+            {
+                name: 'Community Hero',
+                icon: 'fa-users',
+                description: 'Referred 10 friends',
+                progress: 30,
+                earned: false
+            },
+            {
+                name: 'Yoga Master',
+                icon: 'fa-pray',
+                description: 'Completed 100 yoga classes',
+                progress: 85,
+                earned: false
+            },
+            {
+                name: 'Weight Loss Champion',
+                icon: 'fa-weight-scale',
+                description: 'Lost 10kg weight',
+                progress: 90,
+                earned: false
+            }
+        ];
+
+        // Render badges
+        function renderBadges() {
+            const grid = document.getElementById('badgesGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = badges.map(badge => `
+                <div class="badge-card">
+                    <div class="badge-icon">
+                        <i class="fas ${badge.icon}"></i>
+                    </div>
+                    <h3>${badge.name}</h3>
+                    <p>${badge.description}</p>
+                    ${badge.earned 
+                        ? '<span style="color: #27ae60;"><i class="fas fa-check-circle"></i> Earned</span>' 
+                        : `
+                            <div class="badge-progress">
+                                <div class="progress-fill" style="width: ${badge.progress}%"></div>
+                            </div>
+                            <span style="color: #ff4d4d; font-size: 14px;">${badge.progress}% complete</span>
+                        `
+                    }
+                </div>
+            `).join('');
+        }
+
+        renderBadges();
+    </script>
+</body>
+</html>

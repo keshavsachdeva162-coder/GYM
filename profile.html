@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Manage your profile, track fitness goals, and view membership details at PowerFit Pro.">
+    <meta name="keywords" content="profile, fitness goals, membership, personal details">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (for profile) -->
+    <style>
+        /* Profile-specific layout adjustments */
+        .dashboard-container {
+            display: flex;
+            min-height: calc(100vh - 80px);
+            margin-top: 80px;
+        }
+
+        /* Sidebar (same as dashboard) */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 77, 77, 0.3);
+            padding: 30px;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .sidebar-logo i {
+            font-size: 30px;
+            color: #ff4d4d;
+        }
+
+        .sidebar-logo h2 {
+            font-size: 24px;
+        }
+
+        .sidebar-logo span {
+            color: #ff4d4d;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            color: #ccc;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255, 77, 77, 0.1);
+            color: #ff4d4d;
+        }
+
+        .sidebar-menu i {
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        /* Header */
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-header h1 {
+            font-size: 32px;
+        }
+
+        .profile-header span {
+            color: #ff4d4d;
+        }
+
+        .edit-profile-btn {
+            padding: 12px 30px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-profile-btn:hover {
+            background: #ff3333;
+            transform: translateY(-2px);
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .profile-cover {
+            height: 200px;
+            background: linear-gradient(135deg, #ff4d4d 0%, #ff6b6b 100%);
+            border-radius: 15px;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .profile-avatar {
+            position: absolute;
+            bottom: -60px;
+            left: 40px;
+            display: flex;
+            align-items: flex-end;
+            gap: 30px;
+        }
+
+        .avatar-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #ff4d4d;
+            overflow: hidden;
+        }
+
+        .avatar-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-upload {
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            padding: 8px 20px;
+            background: transparent;
+            border: 2px solid #fff;
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #fff;
+            color: #ff4d4d;
+        }
+
+        .profile-info {
+            margin-top: 60px;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-group {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+
+        .info-group label {
+            color: #ff4d4d;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-group p {
+            font-size: 16px;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        /* Goals Section */
+        .goals-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .goals-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .goals-header h2 {
+            color: #ff4d4d;
+        }
+
+        .add-goal-btn {
+            padding: 8px 20px;
+            background: transparent;
+            border: 2px solid #ff4d4d;
+            border-radius: 50px;
+            color: #ff4d4d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-goal-btn:hover {
+            background: #ff4d4d;
+            color: #fff;
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .goal-card {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .goal-header h3 {
+            font-size: 16px;
+        }
+
+        .goal-edit i {
+            color: #ff4d4d;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .goal-progress {
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ff4d4d;
+            border-radius: 3px;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            color: #ccc;
+            font-size: 12px;
+        }
+
+        /* Membership Section */
+        .membership-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .membership-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .membership-header h2 {
+            color: #ff4d4d;
+        }
+
+        .upgrade-btn {
+            padding: 8px 20px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upgrade-btn:hover {
+            background: #ff3333;
+        }
+
+        .membership-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .detail-item {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+
+        .detail-item label {
+            color: #ff4d4d;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .detail-item p {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 10px;
+            }
+
+            .sidebar-logo h2,
+            .sidebar-menu span {
+                display: none;
+            }
+
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 15px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 77, 77, 0.3);
+                padding: 15px;
+            }
+            .profile-avatar {
+                flex-direction: column;
+                align-items: flex-start;
+                left: 20px;
+            }
+
+            .info-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">POWERFIT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Power<span>Fit</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-dumbbell"></i>
+                <h2>Power<span>Fit</span></h2>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+                <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> <span>My Classes</span></a></li>
+                <li><a href="bmi-calculator.html"><i class="fas fa-chart-line"></i> <span>Progress</span></a></li>
+                <li><a href="workout-plans.html"><i class="fas fa-dumbbell"></i> <span>Workouts</span></a></li>
+                <li><a href="nutrition-plans.html"><i class="fas fa-apple-alt"></i> <span>Nutrition</span></a></li>
+                <li><a href="profile.html" class="active"><i class="fas fa-user"></i> <span>Profile</span></a></li>
+                <li><a href="membership.html"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <h1>My <span>Profile</span></h1>
+                <button class="edit-profile-btn" onclick="enableEdit()">Edit Profile</button>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="profile-cover">
+                    <div class="profile-avatar">
+                        <div class="avatar-image">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" id="profileImage">
+                        </div>
+                        <div class="avatar-upload">
+                            <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                            <button class="upload-btn" onclick="document.getElementById('imageUpload').click()">Change Photo</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-info" id="profileInfo">
+                    <div class="info-row">
+                        <div class="info-group">
+                            <label>Full Name</label>
+                            <p id="displayName">John Anderson</p>
+                        </div>
+                        <div class="info-group">
+                            <label>Email Address</label>
+                            <p id="displayEmail">john.anderson@email.com</p>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-group">
+                            <label>Phone Number</label>
+                            <p id="displayPhone">+91 98765 43210</p>
+                        </div>
+                        <div class="info-group">
+                            <label>Date of Birth</label>
+                            <p id="displayDob">15 March 1990</p>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-group">
+                            <label>Gender</label>
+                            <p id="displayGender">Male</p>
+                        </div>
+                        <div class="info-group">
+                            <label>Member Since</label>
+                            <p>January 2023</p>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-group">
+                            <label>Address</label>
+                            <p id="displayAddress">123 Fitness Street, Andheri West, Mumbai - 400053</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Form (hidden by default) -->
+                <div class="profile-info" id="editForm" style="display: none;">
+                    <div class="info-row">
+                        <div class="info-group">
+                            <label>Full Name</label>
+                            <input type="text" id="editName" value="John Anderson" class="edit-input">
+                        </div>
+                        <div class="info-group">
+                            <label>Email Address</label>
+                            <input type="email" id="editEmail" value="john.anderson@email.com" class="edit-input">
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="editPhone" value="9876543210" class="edit-input">
+                        </div>
+                        <div class="info-group">
+                            <label>Date of Birth</label>
+                            <input type="date" id="editDob" value="1990-03-15" class="edit-input">
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-group">
+                            <label>Gender</label>
+                            <select id="editGender" class="edit-input">
+                                <option value="Male" selected>Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="info-group">
+                            <label>Address</label>
+                            <input type="text" id="editAddress" value="123 Fitness Street, Andheri West, Mumbai - 400053" class="edit-input">
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-group">
+                            <button class="edit-profile-btn" onclick="saveProfile()">Save Changes</button>
+                            <button class="edit-profile-btn" onclick="cancelEdit()" style="background: #666; margin-left: 10px;">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals Section -->
+            <div class="goals-section">
+                <div class="goals-header">
+                    <h2>Fitness Goals</h2>
+                    <button class="add-goal-btn" onclick="addGoal()">+ Add Goal</button>
+                </div>
+                <div class="goals-grid" id="goalsGrid">
+                    <div class="goal-card">
+                        <div class="goal-header">
+                            <h3>Weight Loss</h3>
+                            <div class="goal-edit">
+                                <i class="fas fa-edit" onclick="editGoal(this)"></i>
+                                <i class="fas fa-trash" onclick="deleteGoal(this)"></i>
+                            </div>
+                        </div>
+                        <div class="goal-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>6.5 kg lost</span>
+                                <span>Goal: 10 kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="goal-card">
+                        <div class="goal-header">
+                            <h3>Bench Press</h3>
+                            <div class="goal-edit">
+                                <i class="fas fa-edit" onclick="editGoal(this)"></i>
+                                <i class="fas fa-trash" onclick="deleteGoal(this)"></i>
+                            </div>
+                        </div>
+                        <div class="goal-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>80 kg</span>
+                                <span>Goal: 100 kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="goal-card">
+                        <div class="goal-header">
+                            <h3>Weekly Workouts</h3>
+                            <div class="goal-edit">
+                                <i class="fas fa-edit" onclick="editGoal(this)"></i>
+                                <i class="fas fa-trash" onclick="deleteGoal(this)"></i>
+                            </div>
+                        </div>
+                        <div class="goal-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 71%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>5/7 days</span>
+                                <span>Goal: 7 days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Membership Section -->
+            <div class="membership-section">
+                <div class="membership-header">
+                    <h2>Membership Details</h2>
+                    <button class="upgrade-btn" onclick="window.location.href='membership.html'">Upgrade Plan</button>
+                </div>
+                <div class="membership-details">
+                    <div class="detail-item">
+                        <label>Current Plan</label>
+                        <p>Premium Member</p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Valid Until</label>
+                        <p>December 31, 2024</p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Classes Left</label>
+                        <p>Unlimited</p>
+                    </div>
+                    <div class="detail-item">
+                        <label>PT Sessions</label>
+                        <p>2/4 remaining</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Power<span>Fit</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PowerFit Pro. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+
+        // Image upload preview
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileImage').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Edit profile
+        function enableEdit() {
+            document.getElementById('profileInfo').style.display = 'none';
+            document.getElementById('editForm').style.display = 'block';
+        }
+
+        function cancelEdit() {
+            document.getElementById('profileInfo').style.display = 'block';
+            document.getElementById('editForm').style.display = 'none';
+        }
+
+        function saveProfile() {
+            // Get values from edit form
+            const name = document.getElementById('editName').value;
+            const email = document.getElementById('editEmail').value;
+            const phone = document.getElementById('editPhone').value;
+            const dob = document.getElementById('editDob').value;
+            const gender = document.getElementById('editGender').value;
+            const address = document.getElementById('editAddress').value;
+
+            // Format date for display
+            const dateObj = new Date(dob);
+            const formattedDate = dateObj.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Update display
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('displayEmail').textContent = email;
+            document.getElementById('displayPhone').textContent = '+91 ' + phone;
+            document.getElementById('displayDob').textContent = formattedDate;
+            document.getElementById('displayGender').textContent = gender;
+            document.getElementById('displayAddress').textContent = address;
+
+            // Hide edit form
+            cancelEdit();
+
+            // Show success message
+            alert('Profile updated successfully!');
+        }
+
+        // Goals management
+        function addGoal() {
+            const goalName = prompt('Enter goal name:');
+            if (goalName) {
+                const target = prompt('Enter target value:');
+                const current = prompt('Enter current progress:');
+                
+                if (target && current) {
+                    const percentage = (current / target) * 100;
+                    
+                    const goalCard = document.createElement('div');
+                    goalCard.className = 'goal-card';
+                    goalCard.innerHTML = `
+                        <div class="goal-header">
+                            <h3>${goalName}</h3>
+                            <div class="goal-edit">
+                                <i class="fas fa-edit" onclick="editGoal(this)"></i>
+                                <i class="fas fa-trash" onclick="deleteGoal(this)"></i>
+                            </div>
+                        </div>
+                        <div class="goal-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${percentage}%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span>${current} ${goalName.includes('Weight') ? 'kg' : ''}</span>
+                                <span>Goal: ${target} ${goalName.includes('Weight') ? 'kg' : ''}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('goalsGrid').appendChild(goalCard);
+                }
+            }
+        }
+
+        function editGoal(element) {
+            const goalCard = element.closest('.goal-card');
+            const goalName = goalCard.querySelector('h3').textContent;
+            const newName = prompt('Edit goal name:', goalName);
+            
+            if (newName) {
+                goalCard.querySelector('h3').textContent = newName;
+            }
+        }
+
+        function deleteGoal(element) {
+            if (confirm('Are you sure you want to delete this goal?')) {
+                const goalCard = element.closest('.goal-card');
+                goalCard.remove();
+            }
+        }
+    </script>
+</body>
+</html>

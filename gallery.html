@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Explore our state-of-the-art fitness facility, classes, events, and trainers through our photo gallery at PowerFit Pro.">
+    <meta name="keywords" content="gym gallery, fitness center photos, workout facility, PowerFit Pro images">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (for gallery) -->
+    <style>
+        .page-header {
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 60px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .page-header span {
+            color: #ff4d4d;
+        }
+
+        .breadcrumb {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .gallery-section {
+            padding: 80px 0;
+        }
+
+        /* Gallery Filters */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid #ff4d4d;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #ff4d4d;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h3 {
+            color: #ff4d4d;
+            margin-bottom: 5px;
+        }
+
+        .gallery-overlay p {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .gallery-overlay i {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 24px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay i {
+            opacity: 1;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 10px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .lightbox-nav button {
+            background: rgba(255, 77, 77, 0.3);
+            border: none;
+            color: #fff;
+            font-size: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-nav button:hover {
+            background: #ff4d4d;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            color: #fff;
+        }
+
+        /* Load More */
+        .load-more {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .load-more-btn {
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid #ff4d4d;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .load-more-btn:hover {
+            background: #ff4d4d;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 40px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">POWERFIT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Power<span>Fit</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our <span>Gallery</span></h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Gallery</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <!-- Gallery Filters -->
+            <div class="gallery-filters" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="facility">Facility</button>
+                <button class="filter-btn" data-filter="classes">Classes</button>
+                <button class="filter-btn" data-filter="events">Events</button>
+                <button class="filter-btn" data-filter="trainers">Trainers</button>
+                <button class="filter-btn" data-filter="members">Members</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="galleryGrid"></div>
+
+            <!-- Load More -->
+            <div class="load-more">
+                <button class="load-more-btn" onclick="loadMore()">Load More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightboxImg">
+            <div class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></div>
+            <div class="lightbox-nav">
+                <button onclick="prevImage()"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="nextImage()"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="lightbox-info" id="lightboxInfo"></div>
+        </div>
+    </div>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Power<span>Fit</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PowerFit Pro. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+
+        // Gallery Data
+        const galleryImages = [
+            {
+                id: 1,
+                src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'facility',
+                title: 'Main Gym Area',
+                description: 'State-of-the-art equipment'
+            },
+            {
+                id: 2,
+                src: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'trainers',
+                title: 'Personal Training',
+                description: 'Expert guidance from certified trainers'
+            },
+            {
+                id: 3,
+                src: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'classes',
+                title: 'Yoga Class',
+                description: 'Find your inner peace'
+            },
+            {
+                id: 4,
+                src: 'https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'classes',
+                title: 'HIIT Session',
+                description: 'High-intensity interval training'
+            },
+            {
+                id: 5,
+                src: 'https://images.unsplash.com/photo-1599058917765-a780eda07a3e?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'events',
+                title: 'CrossFit Competition',
+                description: 'Annual fitness challenge'
+            },
+            {
+                id: 6,
+                src: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'facility',
+                title: 'Cardio Zone',
+                description: 'Modern cardio equipment'
+            },
+            {
+                id: 7,
+                src: 'https://images.unsplash.com/photo-1545389336-cf090694435e?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'classes',
+                title: 'Meditation Session',
+                description: 'Mindfulness and relaxation'
+            },
+            {
+                id: 8,
+                src: 'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'members',
+                title: 'Member Success',
+                description: 'Celebrating achievements'
+            },
+            {
+                id: 9,
+                src: 'https://images.unsplash.com/photo-1581009137042-c552e485697a?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'facility',
+                title: 'Strength Training',
+                description: 'Dumbbells and free weights'
+            },
+            {
+                id: 10,
+                src: 'https://images.unsplash.com/photo-1598289431512-b97b0917affc?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'events',
+                title: 'Fitness Workshop',
+                description: 'Learning from the best'
+            },
+            {
+                id: 11,
+                src: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'trainers',
+                title: 'Team PowerFit',
+                description: 'Our expert trainers'
+            },
+            {
+                id: 12,
+                src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.1&auto=format&fit=crop&w=600&q=80',
+                category: 'facility',
+                title: 'Locker Room',
+                description: 'Premium amenities'
+            }
+        ];
+
+        let currentFilter = 'all';
+        let visibleCount = 6;
+        let currentIndex = 0;
+
+        // Render gallery
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            if (!grid) return;
+            
+            const filtered = currentFilter === 'all' 
+                ? galleryImages 
+                : galleryImages.filter(img => img.category === currentFilter);
+            
+            const visible = filtered.slice(0, visibleCount);
+            
+            grid.innerHTML = visible.map((img) => `
+                <div class="gallery-item" data-aos="fade-up" data-category="${img.category}">
+                    <img src="${img.src}" alt="${img.title}">
+                    <div class="gallery-overlay" onclick="openLightbox(${img.id})">
+                        <h3>${img.title}</h3>
+                        <p>${img.description}</p>
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+            `).join('');
+
+            // Hide load more if all images are visible
+            const loadMoreBtn = document.querySelector('.load-more');
+            if (loadMoreBtn) {
+                if (visibleCount >= filtered.length) {
+                    loadMoreBtn.style.display = 'none';
+                } else {
+                    loadMoreBtn.style.display = 'block';
+                }
+            }
+        }
+
+        // Filter gallery
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                currentFilter = btn.dataset.filter;
+                visibleCount = 6;
+                renderGallery();
+            });
+        });
+
+        // Load more
+        function loadMore() {
+            visibleCount += 3;
+            renderGallery();
+        }
+
+        // Lightbox functionality
+        function openLightbox(id) {
+            const img = galleryImages.find(i => i.id === id);
+            currentIndex = galleryImages.findIndex(i => i.id === id);
+            
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxInfo = document.getElementById('lightboxInfo');
+            const lightbox = document.getElementById('lightbox');
+            
+            if (lightboxImg && lightboxInfo && lightbox) {
+                lightboxImg.src = img.src;
+                lightboxInfo.innerHTML = `
+                    <h3>${img.title}</h3>
+                    <p>${img.description}</p>
+                `;
+                lightbox.classList.add('active');
+            }
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox) lightbox.classList.remove('active');
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % galleryImages.length;
+            const img = galleryImages[currentIndex];
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxInfo = document.getElementById('lightboxInfo');
+            if (lightboxImg && lightboxInfo) {
+                lightboxImg.src = img.src;
+                lightboxInfo.innerHTML = `
+                    <h3>${img.title}</h3>
+                    <p>${img.description}</p>
+                `;
+            }
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+            const img = galleryImages[currentIndex];
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxInfo = document.getElementById('lightboxInfo');
+            if (lightboxImg && lightboxInfo) {
+                lightboxImg.src = img.src;
+                lightboxInfo.innerHTML = `
+                    <h3>${img.title}</h3>
+                    <p>${img.description}</p>
+                `;
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox || !lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'ArrowRight') {
+                nextImage();
+            } else if (e.key === 'ArrowLeft') {
+                prevImage();
+            } else if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Initial render
+        renderGallery();
+    </script>
+</body>
+</html>

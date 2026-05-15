@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Read fitness articles, workout tips, nutrition guides, and wellness advice from PowerFit Pro experts.">
+    <meta name="keywords" content="fitness blog, workout tips, nutrition guide, wellness articles">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (for blog) -->
+    <style>
+        .page-header {
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1549060279-7e168fcee0c2?ixlib=rb-4.0.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 60px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .page-header span {
+            color: #ff4d4d;
+        }
+
+        .breadcrumb {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .blog-section {
+            padding: 80px 0;
+        }
+
+        .blog-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 77, 77, 0.2);
+        }
+
+        .blog-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .blog-card:hover .blog-image img {
+            transform: scale(1.1);
+        }
+
+        .blog-category {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 5px 15px;
+            background: #ff4d4d;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .blog-content {
+            padding: 20px;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 15px;
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .blog-meta i {
+            color: #ff4d4d;
+            margin-right: 5px;
+        }
+
+        .blog-content h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .blog-content p {
+            color: #ccc;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            color: #ff4d4d;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 10px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            height: fit-content;
+        }
+
+        .sidebar-widget {
+            margin-bottom: 40px;
+        }
+
+        .sidebar-widget h3 {
+            color: #ff4d4d;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        /* Search */
+        .search-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 77, 77, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+        }
+
+        .search-form input:focus {
+            border-color: #ff4d4d;
+        }
+
+        .search-form button {
+            width: 50px;
+            height: 50px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-form button:hover {
+            background: #ff3333;
+            transform: scale(1.05);
+        }
+
+        /* Categories */
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            margin: 15px 0;
+            border-bottom: 1px solid rgba(255, 77, 77, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .category-list a {
+            color: #ccc;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .category-list a:hover {
+            color: #ff4d4d;
+            padding-left: 5px;
+        }
+
+        .category-list span {
+            color: #ff4d4d;
+        }
+
+        /* Popular Posts */
+        .popular-post {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .popular-post img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .post-info h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .post-info p {
+            color: #ccc;
+            font-size: 12px;
+        }
+
+        /* Tags */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag {
+            padding: 5px 15px;
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            border-radius: 50px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: #ff4d4d;
+        }
+
+        /* Newsletter */
+        .newsletter-widget p {
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .newsletter-form input {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 77, 77, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+        }
+
+        .newsletter-form input:focus {
+            border-color: #ff4d4d;
+        }
+
+        .newsletter-form button {
+            padding: 12px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            background: #ff3333;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 50px;
+        }
+
+        .page-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .page-link:hover,
+        .page-link.active {
+            background: #ff4d4d;
+        }
+
+        @media (max-width: 992px) {
+            .blog-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 40px;
+            }
+            
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">POWERFIT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Power<span>Fit</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our <span>Blog</span></h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Blog</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="blog-section">
+        <div class="container">
+            <div class="blog-layout">
+                <!-- Blog Grid -->
+                <div class="blog-grid" id="blogGrid"></div>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Search -->
+                    <div class="sidebar-widget">
+                        <h3>Search</h3>
+                        <form class="search-form" onsubmit="event.preventDefault(); searchBlog()">
+                            <input type="text" id="searchInputBlog" placeholder="Search articles...">
+                            <button type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="sidebar-widget">
+                        <h3>Categories</h3>
+                        <ul class="category-list" id="categoryList"></ul>
+                    </div>
+
+                    <!-- Popular Posts -->
+                    <div class="sidebar-widget">
+                        <h3>Popular Posts</h3>
+                        <div id="popularPosts"></div>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="sidebar-widget">
+                        <h3>Tags</h3>
+                        <div class="tag-cloud" id="tagCloud"></div>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="sidebar-widget newsletter-widget">
+                        <h3>Newsletter</h3>
+                        <p>Subscribe for fitness tips and updates</p>
+                        <form class="newsletter-form" onsubmit="event.preventDefault(); subscribeNewsletter()">
+                            <input type="email" id="newsletterEmail" placeholder="Your email" required>
+                            <button type="submit">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Power<span>Fit</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PowerFit Pro. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+
+        // Blog Data
+        const blogPosts = [
+            {
+                id: 1,
+                title: '10 Tips for Effective Home Workouts',
+                excerpt: 'Discover how to maximize your home workout routine with these expert tips and tricks.',
+                category: 'Workout Tips',
+                author: 'John Anderson',
+                date: '2024-01-15',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                tags: ['workout', 'home', 'fitness'],
+                views: 1245
+            },
+            {
+                id: 2,
+                title: 'The Ultimate Guide to Protein Supplements',
+                excerpt: 'Everything you need to know about protein powders, when to take them, and which one to choose.',
+                category: 'Nutrition',
+                author: 'Sarah Williams',
+                date: '2024-01-12',
+                image: 'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                tags: ['nutrition', 'supplements', 'protein'],
+                views: 2341
+            },
+            {
+                id: 3,
+                title: '5 Yoga Poses for Better Flexibility',
+                excerpt: 'Improve your flexibility and reduce stress with these essential yoga poses.',
+                category: 'Yoga',
+                author: 'Priya Sharma',
+                date: '2024-01-10',
+                image: 'https://images.unsplash.com/photo-1545389336-cf090694435e?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                tags: ['yoga', 'flexibility', 'wellness'],
+                views: 1876
+            },
+            {
+                id: 4,
+                title: 'HIIT vs Cardio: Which is Better?',
+                excerpt: 'Compare HIIT and traditional cardio to find the best workout for your goals.',
+                category: 'Cardio',
+                author: 'Mike Chen',
+                date: '2024-01-08',
+                image: 'https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                tags: ['hiit', 'cardio', 'workout'],
+                views: 1567
+            },
+            {
+                id: 5,
+                title: 'Meal Prep Guide for Busy People',
+                excerpt: 'Save time and eat healthy with these meal prep strategies for the week.',
+                category: 'Nutrition',
+                author: 'Lisa Rodriguez',
+                date: '2024-01-05',
+                image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                tags: ['mealprep', 'nutrition', 'healthy'],
+                views: 1983
+            },
+            {
+                id: 6,
+                title: 'Recovery Techniques After Intense Workouts',
+                excerpt: 'Learn the best ways to recover faster and prevent injury after tough training sessions.',
+                category: 'Recovery',
+                author: 'David Kumar',
+                date: '2024-01-03',
+                image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                tags: ['recovery', 'injuryprevention', 'fitness'],
+                views: 1452
+            }
+        ];
+
+        // Categories with counts
+        const categories = {
+            'Workout Tips': 12,
+            'Nutrition': 8,
+            'Yoga': 6,
+            'Cardio': 5,
+            'Recovery': 4,
+            'Motivation': 7
+        };
+
+        // Popular posts (top 3 by views)
+        const popularPosts = [...blogPosts].sort((a, b) => b.views - a.views).slice(0, 3);
+
+        // All unique tags
+        const allTags = [...new Set(blogPosts.flatMap(post => post.tags))];
+
+        // Format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Render blog posts
+        function renderBlogPosts(posts = blogPosts) {
+            const grid = document.getElementById('blogGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = posts.map(post => `
+                <div class="blog-card" data-aos="fade-up">
+                    <div class="blog-image">
+                        <img src="${post.image}" alt="${post.title}">
+                        <span class="blog-category">${post.category}</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span><i class="far fa-calendar"></i> ${formatDate(post.date)}</span>
+                            <span><i class="far fa-user"></i> ${post.author}</span>
+                            <span><i class="far fa-eye"></i> ${post.views}</span>
+                        </div>
+                        <h3>${post.title}</h3>
+                        <p>${post.excerpt}</p>
+                        <a href="blog-post.html?id=${post.id}" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render categories
+        function renderCategories() {
+            const list = document.getElementById('categoryList');
+            if (!list) return;
+            
+            list.innerHTML = Object.entries(categories).map(([category, count]) => `
+                <li>
+                    <a href="#" onclick="filterByCategory('${category}'); return false;">
+                        ${category} <span>(${count})</span>
+                    </a>
+                </li>
+            `).join('');
+        }
+
+        // Render popular posts
+        function renderPopularPosts() {
+            const container = document.getElementById('popularPosts');
+            if (!container) return;
+            
+            container.innerHTML = popularPosts.map(post => `
+                <div class="popular-post">
+                    <img src="${post.image}" alt="${post.title}">
+                    <div class="post-info">
+                        <h4>${post.title}</h4>
+                        <p><i class="far fa-calendar"></i> ${formatDate(post.date)}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render tags
+        function renderTags() {
+            const container = document.getElementById('tagCloud');
+            if (!container) return;
+            
+            container.innerHTML = allTags.map(tag => `
+                <a href="#" class="tag" onclick="filterByTag('${tag}'); return false;">${tag}</a>
+            `).join('');
+        }
+
+        // Search blog
+        function searchBlog() {
+            const query = document.getElementById('searchInputBlog').value.toLowerCase();
+            if (query.length < 2) {
+                renderBlogPosts();
+                return;
+            }
+            const filtered = blogPosts.filter(post => 
+                post.title.toLowerCase().includes(query) ||
+                post.excerpt.toLowerCase().includes(query) ||
+                post.category.toLowerCase().includes(query)
+            );
+            renderBlogPosts(filtered);
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            const filtered = blogPosts.filter(post => post.category === category);
+            renderBlogPosts(filtered);
+        }
+
+        // Filter by tag
+        function filterByTag(tag) {
+            const filtered = blogPosts.filter(post => post.tags.includes(tag));
+            renderBlogPosts(filtered);
+        }
+
+        // Subscribe to newsletter (sidebar widget)
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletterEmail').value;
+            if (email) {
+                alert(`Thank you for subscribing with ${email}!`);
+                document.getElementById('newsletterEmail').value = '';
+            } else {
+                alert('Please enter your email');
+            }
+        }
+
+        // Pagination (simplified)
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            if (!pagination) return;
+            const totalPages = 3;
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<a href="#" class="page-link ${i === 1 ? 'active' : ''}" onclick="changePage(${i}); return false;">${i}</a>`;
+            }
+            pagination.innerHTML = html;
+        }
+
+        function changePage(page) {
+            alert(`Loading page ${page}...`);
+        }
+
+        // Initial renders
+        renderBlogPosts();
+        renderCategories();
+        renderPopularPosts();
+        renderTags();
+        renderPagination();
+    </script>
+</body>
+</html>

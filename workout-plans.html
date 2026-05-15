@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Plans - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Choose from a variety of workout plans including strength, HIIT, and cardio. Get personalized AI-generated workouts tailored to your goals.">
+    <meta name="keywords" content="workout plans, fitness routines, HIIT, strength training, AI workout generator">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (for workout-plans) -->
+    <style>
+        .page-header {
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 60px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .page-header span {
+            color: #ff4d4d;
+        }
+
+        .breadcrumb {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .workout-section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-subtitle {
+            color: #ff4d4d;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .section-title span {
+            color: #ff4d4d;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid #ff4d4d;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            background: #ff4d4d;
+        }
+
+        /* Workout Grid */
+        .workout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .workout-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .workout-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 77, 77, 0.2);
+        }
+
+        .workout-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .workout-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .workout-card:hover .workout-image img {
+            transform: scale(1.1);
+        }
+
+        .workout-level {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 15px;
+            background: #ff4d4d;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .workout-content {
+            padding: 20px;
+        }
+
+        .workout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .workout-header h3 {
+            font-size: 20px;
+        }
+
+        .workout-duration {
+            color: #ff4d4d;
+            font-weight: 600;
+        }
+
+        .workout-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .workout-meta i {
+            color: #ff4d4d;
+            margin-right: 5px;
+        }
+
+        .exercise-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .exercise-list li {
+            color: #ccc;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .exercise-list i {
+            color: #27ae60;
+            font-size: 12px;
+        }
+
+        .workout-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .workout-calories {
+            color: #ff4d4d;
+            font-weight: 600;
+        }
+
+        .start-btn {
+            padding: 8px 20px;
+            background: transparent;
+            border: 2px solid #ff4d4d;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .start-btn:hover {
+            background: #ff4d4d;
+        }
+
+        /* Workout Generator */
+        .generator-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            padding: 60px;
+            border-radius: 20px;
+            margin-top: 50px;
+        }
+
+        .generator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .generator-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: #ff4d4d;
+            font-weight: 600;
+        }
+
+        .form-group select,
+        .form-group input {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 77, 77, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: #ff4d4d;
+        }
+
+        .generate-btn {
+            padding: 15px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background: #ff3333;
+            transform: translateY(-2px);
+        }
+
+        .generated-workout {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            border: 1px solid #ff4d4d;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 992px) {
+            .generator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 40px;
+            }
+            
+            .workout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">POWERFIT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Power<span>Fit</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Workout <span>Plans</span></h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Workouts</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workout Section -->
+    <section class="workout-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-subtitle">Train Smart</span>
+                <h2 class="section-title">Choose Your <span>Workout</span></h2>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs" data-aos="fade-up">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="beginner">Beginner</button>
+                <button class="filter-tab" data-filter="intermediate">Intermediate</button>
+                <button class="filter-tab" data-filter="advanced">Advanced</button>
+                <button class="filter-tab" data-filter="strength">Strength</button>
+                <button class="filter-tab" data-filter="cardio">Cardio</button>
+                <button class="filter-tab" data-filter="hiit">HIIT</button>
+            </div>
+
+            <!-- Workout Grid -->
+            <div class="workout-grid" id="workoutGrid"></div>
+
+            <!-- AI Workout Generator -->
+            <div class="generator-section" data-aos="fade-up">
+                <h2 style="text-align: center; margin-bottom: 30px;">AI Workout Generator</h2>
+                <div class="generator-grid">
+                    <div class="generator-form">
+                        <div class="form-group">
+                            <label>Fitness Level</label>
+                            <select id="fitnessLevel">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Goal</label>
+                            <select id="workoutGoal">
+                                <option value="strength">Build Strength</option>
+                                <option value="fat-loss">Fat Loss</option>
+                                <option value="muscle">Build Muscle</option>
+                                <option value="endurance">Endurance</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Equipment Available</label>
+                            <select id="equipment">
+                                <option value="full">Full Gym</option>
+                                <option value="basic">Basic (Dumbbells)</option>
+                                <option value="bodyweight">Bodyweight Only</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Time Available (minutes)</label>
+                            <input type="number" id="workoutTime" value="45" min="15" max="120">
+                        </div>
+                        <button class="generate-btn" id="generateWorkout">Generate Workout</button>
+                    </div>
+                    <div class="generated-workout" id="generatedWorkout">
+                        <h3 style="color: #ff4d4d; margin-bottom: 15px;">Your Custom Workout</h3>
+                        <div id="workoutResult">
+                            <p>Fill in your preferences and click generate to get a personalized workout plan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Power<span>Fit</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PowerFit Pro. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Workout Modal -->
+    <div class="modal" id="workoutModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
+            <h2 id="modalTitle">Workout Details</h2>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+
+        // Workout Data
+        const workouts = [
+            {
+                id: 1,
+                name: 'Full Body Strength',
+                level: 'beginner',
+                category: 'strength',
+                duration: '45 min',
+                calories: '300-400',
+                exercises: [
+                    { name: 'Barbell Squats', sets: 3, reps: 10 },
+                    { name: 'Bench Press', sets: 3, reps: 10 },
+                    { name: 'Bent Over Rows', sets: 3, reps: 10 },
+                    { name: 'Overhead Press', sets: 3, reps: 10 },
+                    { name: 'Deadlifts', sets: 3, reps: 8 }
+                ],
+                image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80'
+            },
+            {
+                id: 2,
+                name: 'HIIT Blast',
+                level: 'intermediate',
+                category: 'hiit',
+                duration: '30 min',
+                calories: '400-500',
+                exercises: [
+                    { name: 'Burpees', sets: 4, reps: '30 sec' },
+                    { name: 'Mountain Climbers', sets: 4, reps: '30 sec' },
+                    { name: 'Jump Squats', sets: 4, reps: '30 sec' },
+                    { name: 'High Knees', sets: 4, reps: '30 sec' },
+                    { name: 'Rest', sets: 4, reps: '15 sec' }
+                ],
+                image: 'https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80'
+            },
+            {
+                id: 3,
+                name: 'Upper Body Focus',
+                level: 'intermediate',
+                category: 'strength',
+                duration: '50 min',
+                calories: '350-450',
+                exercises: [
+                    { name: 'Pull Ups', sets: 4, reps: '8-10' },
+                    { name: 'Incline Press', sets: 4, reps: 10 },
+                    { name: 'Dumbbell Rows', sets: 4, reps: 12 },
+                    { name: 'Shoulder Press', sets: 3, reps: 12 },
+                    { name: 'Bicep Curls', sets: 3, reps: 15 }
+                ],
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80'
+            },
+            {
+                id: 4,
+                name: 'Cardio Endurance',
+                level: 'beginner',
+                category: 'cardio',
+                duration: '40 min',
+                calories: '350-450',
+                exercises: [
+                    { name: 'Treadmill Run', sets: 1, reps: '15 min' },
+                    { name: 'Elliptical', sets: 1, reps: '10 min' },
+                    { name: 'Rowing Machine', sets: 1, reps: '10 min' },
+                    { name: 'Jump Rope', sets: 3, reps: '2 min' }
+                ],
+                image: 'https://images.unsplash.com/photo-1550345332-09e3ac987658?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80'
+            },
+            {
+                id: 5,
+                name: 'Advanced CrossFit',
+                level: 'advanced',
+                category: 'hiit',
+                duration: '60 min',
+                calories: '600-700',
+                exercises: [
+                    { name: 'Clean & Jerk', sets: 5, reps: 5 },
+                    { name: 'Box Jumps', sets: 4, reps: 15 },
+                    { name: 'Kettlebell Swings', sets: 4, reps: 20 },
+                    { name: 'Wall Balls', sets: 4, reps: 20 },
+                    { name: 'Burpee Pull Ups', sets: 4, reps: 10 }
+                ],
+                image: 'https://images.unsplash.com/photo-1599058917765-a780eda07a3e?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80'
+            },
+            {
+                id: 6,
+                name: 'Lower Body Power',
+                level: 'advanced',
+                category: 'strength',
+                duration: '55 min',
+                calories: '450-550',
+                exercises: [
+                    { name: 'Back Squats', sets: 5, reps: 5 },
+                    { name: 'Romanian Deadlifts', sets: 4, reps: 8 },
+                    { name: 'Leg Press', sets: 4, reps: 12 },
+                    { name: 'Bulgarian Split Squats', sets: 3, reps: 10 },
+                    { name: 'Calf Raises', sets: 4, reps: 20 }
+                ],
+                image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80'
+            }
+        ];
+
+        // Render workouts
+        function renderWorkouts(filter = 'all') {
+            const grid = document.getElementById('workoutGrid');
+            if (!grid) return;
+            
+            const filtered = filter === 'all' 
+                ? workouts 
+                : workouts.filter(w => w.level === filter || w.category === filter);
+            
+            grid.innerHTML = filtered.map(workout => `
+                <div class="workout-card" data-aos="fade-up">
+                    <div class="workout-image">
+                        <img src="${workout.image}" alt="${workout.name}">
+                        <span class="workout-level">${workout.level}</span>
+                    </div>
+                    <div class="workout-content">
+                        <div class="workout-header">
+                            <h3>${workout.name}</h3>
+                            <span class="workout-duration">${workout.duration}</span>
+                        </div>
+                        <div class="workout-meta">
+                            <span><i class="fas fa-fire"></i> ${workout.calories} cal</span>
+                            <span><i class="fas fa-dumbbell"></i> ${workout.category}</span>
+                        </div>
+                        <ul class="exercise-list">
+                            ${workout.exercises.slice(0, 3).map(ex => `
+                                <li><i class="fas fa-check"></i> ${ex.name} - ${ex.sets}x${ex.reps}</li>
+                            `).join('')}
+                        </ul>
+                        <div class="workout-footer">
+                            <span class="workout-calories">${workout.exercises.length} exercises</span>
+                            <button class="start-btn" onclick="viewWorkout(${workout.id})">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter tabs
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderWorkouts(tab.dataset.filter);
+            });
+        });
+
+        // Initial render
+        renderWorkouts();
+
+        // View workout details
+        const modal = document.getElementById('workoutModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+
+        function viewWorkout(id) {
+            const workout = workouts.find(w => w.id === id);
+            if (!workout) return;
+            
+            if (modalTitle) modalTitle.textContent = workout.name;
+            
+            if (modalContent) {
+                modalContent.innerHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <img src="${workout.image}" alt="${workout.name}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+                        <div style="text-align: center; padding: 10px; background: rgba(255,77,77,0.1); border-radius: 10px;">
+                            <div style="color: #ff4d4d; font-weight: 600;">Duration</div>
+                            <div>${workout.duration}</div>
+                        </div>
+                        <div style="text-align: center; padding: 10px; background: rgba(255,77,77,0.1); border-radius: 10px;">
+                            <div style="color: #ff4d4d; font-weight: 600;">Calories</div>
+                            <div>${workout.calories}</div>
+                        </div>
+                        <div style="text-align: center; padding: 10px; background: rgba(255,77,77,0.1); border-radius: 10px;">
+                            <div style="color: #ff4d4d; font-weight: 600;">Level</div>
+                            <div>${workout.level}</div>
+                        </div>
+                    </div>
+                    <h3 style="color: #ff4d4d; margin-bottom: 15px;">Exercises</h3>
+                    <div style="display: grid; gap: 10px;">
+                        ${workout.exercises.map(ex => `
+                            <div style="display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px;">
+                                <span>${ex.name}</span>
+                                <span style="color: #ff4d4d;">${ex.sets} x ${ex.reps}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            if (modal) modal.classList.add('active');
+        }
+
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                if (modal) modal.classList.remove('active');
+            });
+        }
+
+        window.addEventListener('click', (e) => {
+            if (modal && e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // AI Workout Generator
+        const generateBtn = document.getElementById('generateWorkout');
+        if (generateBtn) {
+            generateBtn.addEventListener('click', () => {
+                const level = document.getElementById('fitnessLevel').value;
+                const goal = document.getElementById('workoutGoal').value;
+                const equipment = document.getElementById('equipment').value;
+                const time = document.getElementById('workoutTime').value;
+
+                const result = document.getElementById('workoutResult');
+                if (!result) return;
+                
+                let workout = '';
+                
+                if (goal === 'strength') {
+                    workout = `
+                        <h4 style="color: #ff4d4d;">Strength Focus Workout (${time} min)</h4>
+                        <ul style="list-style: none; margin-top: 15px;">
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Barbell Squats - 4x8</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Bench Press - 4x8</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Deadlifts - 3x5</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Bent Over Rows - 3x10</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Overhead Press - 3x10</li>
+                        </ul>
+                    `;
+                } else if (goal === 'fat-loss') {
+                    workout = `
+                        <h4 style="color: #ff4d4d;">Fat Loss Circuit (${time} min)</h4>
+                        <ul style="list-style: none; margin-top: 15px;">
+                            <li style="margin: 10px 0;"><i class="fas fa-heartbeat" style="color: #ff4d4d;"></i> Burpees - 45 sec on/15 sec off x4</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-heartbeat" style="color: #ff4d4d;"></i> Mountain Climbers - 45 sec on/15 sec off x4</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-heartbeat" style="color: #ff4d4d;"></i> Jump Squats - 45 sec on/15 sec off x4</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-heartbeat" style="color: #ff4d4d;"></i> High Knees - 45 sec on/15 sec off x4</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-heartbeat" style="color: #ff4d4d;"></i> Rest between circuits: 60 sec</li>
+                        </ul>
+                    `;
+                } else {
+                    workout = `
+                        <h4 style="color: #ff4d4d;">Muscle Building Plan (${time} min)</h4>
+                        <ul style="list-style: none; margin-top: 15px;">
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Pull Ups - 4x failure</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Dumbbell Press - 4x10-12</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Cable Rows - 3x15</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Lateral Raises - 3x15</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Bicep Curls - 3x15</li>
+                            <li style="margin: 10px 0;"><i class="fas fa-dumbbell" style="color: #ff4d4d;"></i> Tricep Extensions - 3x15</li>
+                        </ul>
+                    `;
+                }
+
+                result.innerHTML = workout;
+            });
+        }
+    </script>
+</body>
+</html>

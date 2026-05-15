@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Shop premium fitness supplements, apparel, and equipment at PowerFit Pro. Best prices and authentic products.">
+    <meta name="keywords" content="fitness shop, gym supplements, workout gear, protein powder">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (for shop) -->
+    <style>
+        .page-header {
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1549060279-7e168fcee0c2?ixlib=rb-4.0.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 60px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .page-header span {
+            color: #ff4d4d;
+        }
+
+        .breadcrumb {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .shop-section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-subtitle {
+            color: #ff4d4d;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .section-title span {
+            color: #ff4d4d;
+        }
+
+        /* Shop Layout */
+        .shop-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            height: fit-content;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section h3 {
+            color: #ff4d4d;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            margin: 10px 0;
+        }
+
+        .category-list a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .category-list a:hover,
+        .category-list a.active {
+            color: #ff4d4d;
+            padding-left: 5px;
+        }
+
+        .price-range {
+            margin-top: 15px;
+        }
+
+        .price-range input {
+            width: 100%;
+            margin: 10px 0;
+            accent-color: #ff4d4d;
+        }
+
+        .price-values {
+            display: flex;
+            justify-content: space-between;
+            color: #ccc;
+        }
+
+        .rating-filter {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .rating-filter label {
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .rating-filter i {
+            color: #ffc107;
+            margin-right: 5px;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 77, 77, 0.2);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background: #ff4d4d;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-category {
+            color: #ff4d4d;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .product-info h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .product-rating {
+            color: #ffc107;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .product-rating span {
+            color: #ccc;
+            margin-left: 5px;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .current-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff4d4d;
+        }
+
+        .old-price {
+            color: #ccc;
+            text-decoration: line-through;
+            font-size: 14px;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 2px solid #ff4d4d;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .add-to-cart:hover {
+            background: #ff4d4d;
+        }
+
+        /* Sort Bar */
+        .sort-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .sort-select {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            border-radius: 5px;
+            color: #fff;
+            outline: none;
+        }
+
+        .products-found {
+            color: #ccc;
+        }
+
+        @media (max-width: 992px) {
+            .shop-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">POWERFIT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Power<span>Fit</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Fitness <span>Shop</span></h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Shop</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Section -->
+    <section class="shop-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-subtitle">Gear Up</span>
+                <h2 class="section-title">Fitness <span>Store</span></h2>
+            </div>
+
+            <div class="shop-layout">
+                <!-- Sidebar -->
+                <div class="sidebar" data-aos="fade-right">
+                    <div class="sidebar-section">
+                        <h3>Categories</h3>
+                        <ul class="category-list">
+                            <li><a href="#" class="active" data-category="all">All Products <span>(24)</span></a></li>
+                            <li><a href="#" data-category="supplements">Supplements <span>(8)</span></a></li>
+                            <li><a href="#" data-category="apparel">Apparel <span>(6)</span></a></li>
+                            <li><a href="#" data-category="equipment">Equipment <span>(5)</span></a></li>
+                            <li><a href="#" data-category="accessories">Accessories <span>(5)</span></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>Price Range</h3>
+                        <div class="price-range">
+                            <input type="range" id="priceSlider" min="0" max="10000" step="100" value="5000">
+                            <div class="price-values">
+                                <span>₹0</span>
+                                <span id="priceValue">₹5000</span>
+                                <span>₹10000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>Rating</h3>
+                        <div class="rating-filter">
+                            <label><input type="checkbox"> <i class="fas fa-star"></i> 4 & above</label>
+                            <label><input type="checkbox"> <i class="fas fa-star"></i> 3 & above</label>
+                            <label><input type="checkbox"> <i class="fas fa-star"></i> 2 & above</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products -->
+                <div class="products-content" data-aos="fade-left">
+                    <!-- Sort Bar -->
+                    <div class="sort-bar">
+                        <div class="products-found" id="productsCount">24 products found</div>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="default">Default Sorting</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Top Rated</option>
+                            <option value="newest">Newest</option>
+                        </select>
+                    </div>
+
+                    <!-- Product Grid -->
+                    <div class="product-grid" id="productGrid"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Power<span>Fit</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PowerFit Pro. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+
+        // Product Data
+        const products = [
+            {
+                id: 1,
+                name: 'Premium Whey Protein',
+                category: 'supplements',
+                price: 2499,
+                oldPrice: 2999,
+                rating: 4.5,
+                image: 'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                badge: 'Sale'
+            },
+            {
+                id: 2,
+                name: 'Gym Training T-Shirt',
+                category: 'apparel',
+                price: 899,
+                oldPrice: 1299,
+                rating: 4,
+                image: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                badge: 'New'
+            },
+            {
+                id: 3,
+                name: 'Resistance Bands Set',
+                category: 'equipment',
+                price: 599,
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1598289431512-b97b0917affc?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80'
+            },
+            {
+                id: 4,
+                name: 'Gym Training Shorts',
+                category: 'apparel',
+                price: 699,
+                oldPrice: 999,
+                rating: 4.2,
+                image: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                badge: 'Sale'
+            },
+            {
+                id: 5,
+                name: 'BCAA 2:1:1',
+                category: 'supplements',
+                price: 1499,
+                rating: 4.3,
+                image: 'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80'
+            },
+            {
+                id: 6,
+                name: 'Yoga Mat',
+                category: 'accessories',
+                price: 799,
+                oldPrice: 999,
+                rating: 4.6,
+                image: 'https://images.unsplash.com/photo-1592432678016-e910b452f9a2?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                badge: 'Eco'
+            },
+            {
+                id: 7,
+                name: 'Adjustable Dumbbells',
+                category: 'equipment',
+                price: 4999,
+                rating: 4.9,
+                image: 'https://images.unsplash.com/photo-1586401100295-7a8096fd231a?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80'
+            },
+            {
+                id: 8,
+                name: 'Gym Bag',
+                category: 'accessories',
+                price: 1299,
+                oldPrice: 1699,
+                rating: 4.4,
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                badge: 'New'
+            }
+        ];
+
+        // Render products
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('productGrid');
+            const countEl = document.getElementById('productsCount');
+            if (!grid) return;
+            
+            if (countEl) countEl.textContent = `${productsToRender.length} products found`;
+            
+            grid.innerHTML = productsToRender.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${product.category}</div>
+                        <h3>${product.name}</h3>
+                        <div class="product-rating">
+                            ${getRatingStars(product.rating)} <span>(${product.rating})</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">₹${product.price}</span>
+                            ${product.oldPrice ? `<span class="old-price">₹${product.oldPrice}</span>` : ''}
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Generate rating stars
+        function getRatingStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= Math.floor(rating)) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i - rating < 1) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const product = products.find(p => p.id === productId);
+            
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            alert(`${product.name} added to cart!`);
+            
+            // Update cart count in header
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                cartCount.textContent = cart.length;
+            }
+        }
+
+        // Sort functionality
+        const sortSelect = document.getElementById('sortSelect');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', (e) => {
+                const value = e.target.value;
+                let sorted = [...products];
+                
+                switch(value) {
+                    case 'price-low':
+                        sorted.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'price-high':
+                        sorted.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'rating':
+                        sorted.sort((a, b) => b.rating - a.rating);
+                        break;
+                    default:
+                        sorted = products;
+                }
+                
+                renderProducts(sorted);
+            });
+        }
+
+        // Price filter
+        const priceSlider = document.getElementById('priceSlider');
+        if (priceSlider) {
+            priceSlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                const priceValueSpan = document.getElementById('priceValue');
+                if (priceValueSpan) priceValueSpan.textContent = `₹${value}`;
+                
+                const filtered = products.filter(p => p.price <= value);
+                renderProducts(filtered);
+            });
+        }
+
+        // Category filter
+        document.querySelectorAll('.category-list a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                document.querySelectorAll('.category-list a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                const category = link.dataset.category;
+                if (category === 'all') {
+                    renderProducts(products);
+                } else {
+                    const filtered = products.filter(p => p.category === category);
+                    renderProducts(filtered);
+                }
+            });
+        });
+
+        // Initialize cart count from localStorage
+        function updateCartCountFromStorage() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) cartCount.textContent = cart.length;
+        }
+        updateCartCountFromStorage();
+
+        // Initial render
+        renderProducts(products);
+    </script>
+</body>
+</html>

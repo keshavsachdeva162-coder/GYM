@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="View PowerFit Pro's weekly class schedule. Book your favorite fitness classes including CrossFit, Yoga, HIIT, and more.">
+    <meta name="keywords" content="class schedule, fitness timetable, workout schedule, gym classes">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- FullCalendar -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (for schedule) -->
+    <style>
+        .page-header {
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 60px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .page-header span {
+            color: #ff4d4d;
+        }
+
+        .breadcrumb {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .schedule-section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-subtitle {
+            color: #ff4d4d;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .section-title span {
+            color: #ff4d4d;
+        }
+
+        /* Calendar */
+        .calendar-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            margin-bottom: 50px;
+        }
+
+        #calendar {
+            background: transparent;
+            color: #fff;
+        }
+
+        .fc-theme-standard td, 
+        .fc-theme-standard th {
+            border-color: rgba(255, 77, 77, 0.3);
+        }
+
+        .fc .fc-daygrid-day-number {
+            color: #fff;
+        }
+
+        .fc .fc-col-header-cell-cushion {
+            color: #ff4d4d;
+        }
+
+        .fc-event {
+            background: #ff4d4d;
+            border: none;
+            padding: 2px 5px;
+            cursor: pointer;
+        }
+
+        /* Daily Schedule */
+        .daily-schedule {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .day-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .day-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid #ff4d4d;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .day-btn:hover,
+        .day-btn.active {
+            background: #ff4d4d;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .schedule-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .schedule-card:hover {
+            transform: translateX(5px);
+            background: rgba(255, 77, 77, 0.1);
+        }
+
+        .schedule-time {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ff4d4d;
+            font-family: 'Orbitron', sans-serif;
+            min-width: 80px;
+        }
+
+        .schedule-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .schedule-info p {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .schedule-trainer {
+            color: #ff4d4d;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .schedule-actions {
+            margin-left: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .book-btn-small {
+            padding: 5px 15px;
+            background: transparent;
+            border: 2px solid #ff4d4d;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .book-btn-small:hover {
+            background: #ff4d4d;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 2px solid #ff4d4d;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #ff4d4d;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 77, 77, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            outline: none;
+        }
+
+        .modal-content input:focus {
+            border-color: #ff4d4d;
+        }
+
+        .modal-content input[readonly] {
+            background: rgba(255, 255, 255, 0.05);
+            cursor: default;
+        }
+
+        .modal-content button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content button[type="submit"]:hover {
+            background: #ff3333;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 40px;
+            }
+            
+            .schedule-card {
+                flex-direction: column;
+            }
+            
+            .schedule-actions {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">POWERFIT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Power<span>Fit</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Class <span>Schedule</span></h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Schedule</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="schedule-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-subtitle">Weekly Schedule</span>
+                <h2 class="section-title">Plan Your <span>Workouts</span></h2>
+            </div>
+
+            <!-- Calendar -->
+            <div class="calendar-container" data-aos="fade-up">
+                <div id="calendar"></div>
+            </div>
+
+            <!-- Daily Schedule -->
+            <div class="daily-schedule" data-aos="fade-up">
+                <div class="day-selector" id="daySelector">
+                    <button class="day-btn active" data-day="monday">Monday</button>
+                    <button class="day-btn" data-day="tuesday">Tuesday</button>
+                    <button class="day-btn" data-day="wednesday">Wednesday</button>
+                    <button class="day-btn" data-day="thursday">Thursday</button>
+                    <button class="day-btn" data-day="friday">Friday</button>
+                    <button class="day-btn" data-day="saturday">Saturday</button>
+                    <button class="day-btn" data-day="sunday">Sunday</button>
+                </div>
+
+                <div class="schedule-grid" id="scheduleGrid"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Power<span>Fit</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PowerFit Pro. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
+            <h2>Book Your Class</h2>
+            <form id="bookingForm">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="tel" placeholder="Phone" required>
+                <input type="text" id="classInfo" readonly>
+                <button type="submit">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+
+        // Schedule Data
+        const scheduleData = {
+            monday: [
+                { time: '6:00 AM', class: 'CrossFit', trainer: 'Mike Chen', duration: '60 min', level: 'Advanced', spots: 12 },
+                { time: '7:00 AM', class: 'Strength Training', trainer: 'John Anderson', duration: '55 min', level: 'Intermediate', spots: 10 },
+                { time: '8:00 AM', class: 'Power Yoga', trainer: 'Sarah Williams', duration: '60 min', level: 'Beginner', spots: 20 },
+                { time: '5:00 PM', class: 'Boxing Fitness', trainer: 'David Kumar', duration: '45 min', level: 'Intermediate', spots: 15 },
+                { time: '6:00 PM', class: 'HIIT Blast', trainer: 'Mike Chen', duration: '45 min', level: 'Advanced', spots: 15 }
+            ],
+            tuesday: [
+                { time: '7:00 AM', class: 'Pilates', trainer: 'Priya Sharma', duration: '50 min', level: 'Beginner', spots: 15 },
+                { time: '8:00 AM', class: 'Power Yoga', trainer: 'Sarah Williams', duration: '60 min', level: 'Beginner', spots: 20 },
+                { time: '9:00 AM', class: 'Zumba', trainer: 'Lisa Rodriguez', duration: '50 min', level: 'Beginner', spots: 25 },
+                { time: '6:00 PM', class: 'Zumba', trainer: 'Lisa Rodriguez', duration: '50 min', level: 'Beginner', spots: 25 },
+                { time: '7:00 PM', class: 'Dance Fitness', trainer: 'Lisa Rodriguez', duration: '45 min', level: 'Intermediate', spots: 20 }
+            ],
+            wednesday: [
+                { time: '6:00 AM', class: 'CrossFit', trainer: 'Mike Chen', duration: '60 min', level: 'Advanced', spots: 12 },
+                { time: '7:00 AM', class: 'Strength Training', trainer: 'John Anderson', duration: '55 min', level: 'Intermediate', spots: 10 },
+                { time: '5:00 PM', class: 'MMA Conditioning', trainer: 'David Kumar', duration: '60 min', level: 'Advanced', spots: 10 },
+                { time: '6:00 PM', class: 'HIIT Blast', trainer: 'Mike Chen', duration: '45 min', level: 'Advanced', spots: 15 }
+            ],
+            thursday: [
+                { time: '7:00 AM', class: 'Pilates', trainer: 'Priya Sharma', duration: '50 min', level: 'Beginner', spots: 15 },
+                { time: '8:00 AM', class: 'Power Yoga', trainer: 'Sarah Williams', duration: '60 min', level: 'Beginner', spots: 20 },
+                { time: '9:00 AM', class: 'Barre', trainer: 'Priya Sharma', duration: '50 min', level: 'Intermediate', spots: 15 },
+                { time: '7:00 PM', class: 'Dance Fitness', trainer: 'Lisa Rodriguez', duration: '45 min', level: 'Intermediate', spots: 20 }
+            ],
+            friday: [
+                { time: '6:00 AM', class: 'CrossFit', trainer: 'Mike Chen', duration: '60 min', level: 'Advanced', spots: 12 },
+                { time: '7:00 AM', class: 'Boxing', trainer: 'David Kumar', duration: '45 min', level: 'Intermediate', spots: 15 },
+                { time: '5:00 PM', class: 'Strength Training', trainer: 'John Anderson', duration: '55 min', level: 'Intermediate', spots: 10 },
+                { time: '6:00 PM', class: 'HIIT Blast', trainer: 'Mike Chen', duration: '45 min', level: 'Advanced', spots: 15 }
+            ],
+            saturday: [
+                { time: '8:00 AM', class: 'Power Yoga', trainer: 'Sarah Williams', duration: '60 min', level: 'Beginner', spots: 20 },
+                { time: '9:00 AM', class: 'Zumba', trainer: 'Lisa Rodriguez', duration: '50 min', level: 'Beginner', spots: 25 },
+                { time: '10:00 AM', class: 'Pilates', trainer: 'Priya Sharma', duration: '50 min', level: 'Beginner', spots: 15 }
+            ],
+            sunday: [
+                { time: '8:00 AM', class: 'Meditation Yoga', trainer: 'Sarah Williams', duration: '60 min', level: 'Beginner', spots: 30 },
+                { time: '9:00 AM', class: 'CrossFit', trainer: 'Mike Chen', duration: '60 min', level: 'Advanced', spots: 12 }
+            ]
+        };
+
+        // Initialize Calendar
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarEl = document.getElementById('calendar');
+            if (calendarEl) {
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    themeSystem: 'standard',
+                    events: [
+                        { title: 'CrossFit', start: '2024-03-15T06:00:00', end: '2024-03-15T07:00:00' },
+                        { title: 'Power Yoga', start: '2024-03-15T08:00:00', end: '2024-03-15T09:00:00' },
+                        { title: 'HIIT Blast', start: '2024-03-16T18:00:00', end: '2024-03-16T19:00:00' }
+                    ],
+                    eventClick: function(info) {
+                        alert('Class: ' + info.event.title);
+                    }
+                });
+                calendar.render();
+            }
+        });
+
+        // Render Schedule
+        function renderSchedule(day) {
+            const grid = document.getElementById('scheduleGrid');
+            if (!grid) return;
+            const classes = scheduleData[day] || [];
+            
+            grid.innerHTML = classes.map(cls => `
+                <div class="schedule-card">
+                    <div class="schedule-time">${cls.time}</div>
+                    <div class="schedule-info">
+                        <h3>${cls.class}</h3>
+                        <p><i class="far fa-clock"></i> ${cls.duration} | ${cls.level}</p>
+                        <div class="schedule-trainer">
+                            <i class="fas fa-user-tie"></i> ${cls.trainer}
+                        </div>
+                    </div>
+                    <div class="schedule-actions">
+                        <span style="color: #ff4d4d; font-size: 14px;">${cls.spots} spots</span>
+                        <button class="book-btn-small" onclick="openBooking('${cls.class}', '${cls.time}', '${cls.trainer}')">Book</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Day selector
+        document.querySelectorAll('.day-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderSchedule(btn.dataset.day);
+            });
+        });
+
+        // Initial render
+        renderSchedule('monday');
+
+        // Booking modal
+        const modal = document.getElementById('bookingModal');
+        const closeModal = document.getElementById('closeModal');
+        const classInfo = document.getElementById('classInfo');
+
+        function openBooking(className, time, trainer) {
+            if (classInfo) classInfo.value = `${className} - ${time} with ${trainer}`;
+            if (modal) modal.classList.add('active');
+        }
+
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                if (modal) modal.classList.remove('active');
+            });
+        }
+
+        window.addEventListener('click', (e) => {
+            if (modal && e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        const bookingForm = document.getElementById('bookingForm');
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Booking confirmed! Check your email.');
+                if (modal) modal.classList.remove('active');
+                e.target.reset();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainers - PowerFit Pro</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Meet our expert trainers at PowerFit Pro. Certified professionals in strength training, yoga, CrossFit, Zumba, and more.">
+    <meta name="keywords" content="personal trainers, gym trainers, fitness experts, PowerFit Pro">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Page-specific styles (for trainers) -->
+    <style>
+        .page-header {
+            height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 60px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .page-header span {
+            color: #ff4d4d;
+        }
+
+        .breadcrumb {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .trainers-section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-subtitle {
+            color: #ff4d4d;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .section-title span {
+            color: #ff4d4d;
+        }
+
+        /* Trainers Grid */
+        .trainers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .trainer-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .trainer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 77, 77, 0.2);
+        }
+
+        .trainer-image {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .trainer-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .trainer-card:hover .trainer-image img {
+            transform: scale(1.1);
+        }
+
+        .trainer-social {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .trainer-card:hover .trainer-social {
+            bottom: 0;
+        }
+
+        .trainer-social a {
+            width: 40px;
+            height: 40px;
+            background: #ff4d4d;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .trainer-social a:hover {
+            transform: scale(1.1);
+            background: #fff;
+            color: #ff4d4d;
+        }
+
+        .trainer-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .trainer-info h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .trainer-info .specialty {
+            color: #ff4d4d;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .trainer-info .experience {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .trainer-info .bio {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .view-schedule {
+            padding: 10px 25px;
+            background: transparent;
+            border: 2px solid #ff4d4d;
+            color: #fff;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .view-schedule:hover {
+            background: #ff4d4d;
+        }
+
+        /* Schedule Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            border: 1px solid #ff4d4d;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 77, 77, 0.3);
+        }
+
+        .schedule-table th {
+            color: #ff4d4d;
+        }
+
+        .schedule-table td {
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">POWERFIT</div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header (same as index.html) -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-contact">
+                        <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                        <span><i class="fas fa-envelope"></i> info@powerfit.com</span>
+                        <span><i class="fas fa-clock"></i> Open 24/7</span>
+                    </div>
+                    <div class="header-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <i class="fas fa-dumbbell"></i>
+                            <h1>Power<span>Fit</span></h1>
+                        </a>
+                    </div>
+
+                    <nav class="navbar" id="navbar">
+                        <ul class="nav-menu">
+                            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="index.html">About Us</a></li>
+                                    <li><a href="schedule.html">Classes</a></li>
+                                    <li><a href="index.html">Trainers</a></li>
+                                    <li><a href="membership.html">Membership</a></li>
+                                    <li><a href="schedule.html">Schedule</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Features <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                                    <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                                    <li><a href="index.html">Workout Plans</a></li>
+                                    <li><a href="achievements.html">Achievements</a></li>
+                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li><a href="events.html">Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link">Account <i class="fas fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="register.html">Register</a></li>
+                                    <li><a href="dashboard.html">Dashboard</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="action-btn" id="themeToggle">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <a href="login.html" class="action-btn">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="cart.html" class="action-btn cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Overlay -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <form class="search-form" id="searchForm">
+                    <input type="text" placeholder="Search classes, trainers, articles..." id="searchInput" autocomplete="off">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <div class="search-results" id="searchResults"></div>
+                <button class="close-search" id="closeSearch"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Expert <span>Trainers</span></h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Trainers</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trainers Section -->
+    <section class="trainers-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-subtitle">Meet Our Team</span>
+                <h2 class="section-title">Expert <span>Trainers</span></h2>
+            </div>
+
+            <!-- Trainers Grid -->
+            <div class="trainers-grid" id="trainersGrid"></div>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2>Power<span>Fit</span></h2>
+                    </div>
+                    <p>India's most advanced fitness center with AI-powered workouts, VR training, and expert guidance for your fitness journey.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">About Us</a></li>
+                        <li><a href="schedule.html">Classes</a></li>
+                        <li><a href="index.html">Trainers</a></li>
+                        <li><a href="membership.html">Membership</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="bmi-calculator.html">BMI Calculator</a></li>
+                        <li><a href="nutrition-plans.html">Nutrition Plans</a></li>
+                        <li><a href="index.html">Workout Plans</a></li>
+                        <li><a href="achievements.html">Achievements</a></li>
+                        <li><a href="shop.html">Shop</a></li>
+                        <li><a href="events.html">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Fitness Hub, Andheri West, Mumbai</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@powerfit.com</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7</p>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for fitness tips and offers</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PowerFit Pro. All rights reserved. Designed for Digital Marketing Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Schedule Modal -->
+    <div class="modal" id="scheduleModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
+            <h2 id="trainerName">Trainer Schedule</h2>
+            <table class="schedule-table" id="scheduleTable">
+                <thead>
+                    <tr><th>Day</th><th>Time</th><th>Class</th></tr>
+                </thead>
+                <tbody id="scheduleBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        AOS.init();
+
+        // Trainers Data
+        const trainers = [
+            {
+                id: 1,
+                name: 'John Anderson',
+                specialty: 'Strength & Conditioning',
+                experience: '10 years',
+                bio: 'Certified strength coach with expertise in powerlifting and bodybuilding',
+                image: 'https://images.unsplash.com/photo-1567013127669-9c1d7e20c9d2?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                schedule: [
+                    { day: 'Monday', time: '7:00 AM', class: 'Strength Training' },
+                    { day: 'Wednesday', time: '7:00 AM', class: 'Strength Training' },
+                    { day: 'Friday', time: '5:00 PM', class: 'Advanced Lifting' }
+                ]
+            },
+            {
+                id: 2,
+                name: 'Sarah Williams',
+                specialty: 'Yoga & Pilates',
+                experience: '8 years',
+                bio: 'Certified yoga instructor specializing in vinyasa and therapeutic yoga',
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                schedule: [
+                    { day: 'Tuesday', time: '8:00 AM', class: 'Power Yoga' },
+                    { day: 'Thursday', time: '8:00 AM', class: 'Pilates' },
+                    { day: 'Saturday', time: '9:00 AM', class: 'Meditation Yoga' }
+                ]
+            },
+            {
+                id: 3,
+                name: 'Mike Chen',
+                specialty: 'CrossFit & HIIT',
+                experience: '12 years',
+                bio: 'CrossFit Level 3 trainer with competitive CrossFit experience',
+                image: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                schedule: [
+                    { day: 'Monday', time: '6:00 AM', class: 'CrossFit' },
+                    { day: 'Wednesday', time: '6:00 PM', class: 'HIIT Blast' },
+                    { day: 'Friday', time: '6:00 AM', class: 'CrossFit' }
+                ]
+            },
+            {
+                id: 4,
+                name: 'Lisa Rodriguez',
+                specialty: 'Zumba & Dance',
+                experience: '7 years',
+                bio: 'Zumba certified instructor and professional dancer',
+                image: 'https://images.unsplash.com/photo-1548690312-e3b507d8c110?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                schedule: [
+                    { day: 'Tuesday', time: '6:00 PM', class: 'Zumba' },
+                    { day: 'Thursday', time: '7:00 PM', class: 'Dance Fitness' },
+                    { day: 'Saturday', time: '8:00 AM', class: 'Zumba' }
+                ]
+            },
+            {
+                id: 5,
+                name: 'David Kumar',
+                specialty: 'Boxing & MMA',
+                experience: '15 years',
+                bio: 'Former professional boxer and MMA conditioning coach',
+                image: 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                schedule: [
+                    { day: 'Monday', time: '5:00 PM', class: 'Boxing Fitness' },
+                    { day: 'Wednesday', time: '5:00 PM', class: 'MMA Conditioning' },
+                    { day: 'Friday', time: '7:00 AM', class: 'Boxing' }
+                ]
+            },
+            {
+                id: 6,
+                name: 'Priya Sharma',
+                specialty: 'Pilates & Barre',
+                experience: '6 years',
+                bio: 'Pilates and barre specialist focusing on core strength and flexibility',
+                image: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?ixlib=rb-4.0.1&auto=format&fit=crop&w=400&q=80',
+                schedule: [
+                    { day: 'Tuesday', time: '9:00 AM', class: 'Pilates' },
+                    { day: 'Thursday', time: '9:00 AM', class: 'Barre' },
+                    { day: 'Saturday', time: '10:00 AM', class: 'Pilates' }
+                ]
+            }
+        ];
+
+        // Render trainers
+        function renderTrainers() {
+            const grid = document.getElementById('trainersGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = trainers.map(trainer => `
+                <div class="trainer-card" data-aos="fade-up">
+                    <div class="trainer-image">
+                        <img src="${trainer.image}" alt="${trainer.name}">
+                        <div class="trainer-social">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="trainer-info">
+                        <h3>${trainer.name}</h3>
+                        <div class="specialty">${trainer.specialty}</div>
+                        <div class="experience">${trainer.experience} experience</div>
+                        <div class="bio">${trainer.bio}</div>
+                        <button class="view-schedule" onclick="viewSchedule(${trainer.id})">View Schedule</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // View schedule
+        const modal = document.getElementById('scheduleModal');
+        const closeModal = document.getElementById('closeModal');
+        const trainerName = document.getElementById('trainerName');
+        const scheduleBody = document.getElementById('scheduleBody');
+
+        function viewSchedule(trainerId) {
+            const trainer = trainers.find(t => t.id === trainerId);
+            if (trainerName) trainerName.textContent = `${trainer.name} - Schedule`;
+            
+            if (scheduleBody) {
+                scheduleBody.innerHTML = trainer.schedule.map(s => `
+                    <tr>
+                        <td>${s.day}</td>
+                        <td>${s.time}</td>
+                        <td>${s.class}</td>
+                    </tr>
+                `).join('');
+            }
+            
+            if (modal) modal.classList.add('active');
+        }
+
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                if (modal) modal.classList.remove('active');
+            });
+        }
+
+        window.addEventListener('click', (e) => {
+            if (modal && e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Initial render
+        renderTrainers();
+    </script>
+</body>
+</html>
